@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 
 module.exports = {
@@ -26,6 +27,18 @@ module.exports = {
         ]
       },
       {
+        test: /\.scss$/,
+        use: [
+          'style-loader', 'css-loader', 'sass-loader'
+        ]
+      },
+      {
+        test: /\.vue$/,
+        use: [
+          'vue-loader'
+        ]
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
         use: [{
           loader: 'url-loader',
@@ -47,6 +60,7 @@ module.exports = {
         from: './src/index.html',
         to: '../'
       }
-    ])
+    ]),
+    new VueLoaderPlugin()
   ]
 };

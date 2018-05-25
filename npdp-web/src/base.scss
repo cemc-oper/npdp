@@ -1,0 +1,21 @@
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
+.npdp-cover-container{
+  min-height: 100%;
+  height: 100%
+}
+
+.npdp-cover-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .el-select .el-input{
+    width: 130px;
+  }
+}
+
+

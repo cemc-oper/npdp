@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NPDP - NWPC Product Distribution Platform</title>
-</head>
-<body>
-<div id="app">
-  <el-container>
-    <el-header>
-      <h1>NPDP</h1>
-    </el-header>
-    <el-main>
-      <div>
-        <el-input placeholder="请输入内容" v-model="search_input">
-          <el-select v-model="search_type" slot="prepend" placeholder="请选择">
-            <el-option label="FTP" value="destination"></el-option>
-            <el-option label="产品" value="product"></el-option>
-            <el-option label="模式" value="operation_system"></el-option>
-          </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
-    </el-main>
-    <el-footer>
-      <h1>Copyright</h1>
-    </el-footer>
-  </el-container>
-</div>
 
+<head>
+  <meta charset="UTF-8">
+  <title>NPDP - NWPC Product Distribution Platform</title>
+</head>
+
+<body>
+<el-container id="app" class="npdp-cover-container">
+  <el-header class="npdp-cover-header">
+    <h1>NPDP</h1>
+  </el-header>
+  <el-main class="npdp-cover-main">
+    <Welcome></Welcome>
+  </el-main>
+  <el-footer class="npdp-cover-footer">
+    <el-row>
+      <el-col :span="12">
+        <p>Copyright 2018, NWPC</p>
+      </el-col>
+    </el-row>
+  </el-footer>
+</el-container>
 </body>
+
 <script src="./js/bundle.js"></script>
 </html>
