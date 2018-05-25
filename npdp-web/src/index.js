@@ -4,17 +4,27 @@ import Vuex from 'vuex';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-import Welcome from './welcome/index.vue';
-
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
 
+import store from './store/index.js'
+import Welcome from './welcome/index.vue';
+
 import './base.scss';
 
-const welcome_app = new Vue({
-  el: "#app",
-  components: {
-    Welcome
+const routes = [
+  {
+    path: '/',
+    component: Welcome
   }
+];
+
+const router = new VueRouter({
+  routes
 });
+
+const app = new Vue({
+  router,
+  store
+}).$mount('#app');

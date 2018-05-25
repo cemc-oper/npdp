@@ -7,21 +7,7 @@
 </head>
 
 <body>
-<el-container id="app" class="npdp-cover-container">
-  <el-header class="npdp-cover-header">
-    <h1>NPDP</h1>
-  </el-header>
-  <el-main class="npdp-cover-main">
-    <Welcome></Welcome>
-  </el-main>
-  <el-footer class="npdp-cover-footer">
-    <el-row>
-      <el-col :span="12">
-        <p>Copyright 2018, NWPC</p>
-      </el-col>
-    </el-row>
-  </el-footer>
-</el-container>
+<router-view id="app"></router-view>
 </body>
 
 <script src="./js/bundle.js"></script>
