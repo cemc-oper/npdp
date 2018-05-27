@@ -48,6 +48,10 @@
         let search_context = this.current_search_input;
         console.log("search type:", search_type);
         console.log("search context:", search_context);
+        this.$emit('doSearch', {
+          type: search_type,
+          context: search_context
+        })
       }
     }
   }

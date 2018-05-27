@@ -9,6 +9,10 @@ export default [
   },
   {
     path: '/search',
-    component: SearchApp
+    component: SearchApp,
+    props: (route) => ({
+      type: route.query.type,
+      context: route.query.context
+    })
   }
 ];

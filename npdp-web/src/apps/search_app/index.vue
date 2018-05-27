@@ -34,6 +34,10 @@
     components: {
       SearchBar
     },
+    props:[
+      'type',
+      'context'
+    ],
     computed: {
       search_types() {
         return this.$store.state.search.search_types;
@@ -57,6 +61,13 @@
     },
     methods: {
 
+    },
+    mounted: function(){
+      console.log("SearchApp.mounted.");
+      this.$store.commit('updateSearch', {
+        search_type: this.type,
+        search_input: this.context
+      });
     }
   }
 </script>

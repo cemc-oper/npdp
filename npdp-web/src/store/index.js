@@ -34,6 +34,10 @@ const search_store = {
     updateSearchType(state, stype){
       console.log('updateSearchType:', stype);
       state.search_type = stype;
+    },
+    updateSearch(state, payload){
+      state.search_input = payload.search_input;
+      state.search_type = payload.search_type;
     }
   }
 };
