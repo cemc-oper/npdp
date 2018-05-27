@@ -32,5 +32,13 @@ export default {
       state.search_input = payload.search_input;
       state.search_type = payload.search_type;
     }
+  },
+  actions: {
+    executeSearch(context, payload){
+      const {commit, state} = context;
+      const {search_type, search_context} = payload;
+      console.log("Execute search in actions.");
+
+    }
   }
 };

@@ -30,7 +30,7 @@
           return this.search_input;
         },
         set(value) {
-          this.$emit('updateSearchInput', value);
+          this.$emit('update-search-input', value);
         }
       },
       current_search_type: {
@@ -38,7 +38,7 @@
           return this.search_type;
         },
         set(value){
-          this.$emit('updateSearchType', value);
+          this.$emit('update-search-type', value);
         }
       }
     },
@@ -46,11 +46,9 @@
       doSearch: function(event){
         let search_type = this.current_search_type;
         let search_context = this.current_search_input;
-        console.log("search type:", search_type);
-        console.log("search context:", search_context);
-        this.$emit('doSearch', {
-          type: search_type,
-          context: search_context
+        this.$emit('do-search', {
+          search_type: search_type,
+          search_context: search_context
         })
       }
     }

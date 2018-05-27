@@ -5,11 +5,12 @@
         <el-col :span="2"><h1>NPDP</h1></el-col>
         <el-col :span="20">
           <SearchBar
-            v-bind:search_input="search_input"
-            v-bind:search_type="search_type"
-            v-bind:search_types="search_types"
-            v-on:updateSearchInput="search_input=$event"
-            v-on:updateSearchType="search_type=$event"
+            :search_input="search_input"
+            :search_type="search_type"
+            :search_types="search_types"
+            @update-search-input="search_input=$event"
+            @update-search-type="search_type=$event"
+            @do-search="doSearch"
           />
         </el-col>
       </el-row>
@@ -59,13 +60,18 @@
       }
     },
     methods: {
-
+      doSearch: function(payload){
+        console.log('[SearchApp] doSearch', payload);
+        this.$store.dispatch('executeSearch', payload);
+      }
     },
     mounted: function(){
-      this.$store.commit('updateSearch', {
+      const payload = {
         search_type: this.type,
         search_input: this.context
-      });
+      };
+      this.$store.commit('updateSearch', payload);
+      this.doSearch(payload);
     }
   }
 </script>
