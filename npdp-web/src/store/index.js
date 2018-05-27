@@ -3,7 +3,7 @@ import Vue from "vue";
 
 Vue.use(Vuex);
 
-const welcome_store = {
+const search_store = {
   state: {
     search_input: '',
     search_type: 'all',
@@ -40,6 +40,6 @@ const welcome_store = {
 
 export default new Vuex.Store({
   modules: {
-    welcome: welcome_store
+    search: search_store
   }
 });

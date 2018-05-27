@@ -52,3 +52,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .el-select {
+    min-width: 100px;
+  }
+</style>

@@ -27,19 +27,19 @@
 </template>
 
 <script>
-  import SearchBar from './search_bar.vue'
+  import SearchBar from '../../components/search_bar.vue'
   export default {
-    name: 'Welcome',
+    name: 'WelcomeApp',
     components: {
       SearchBar
     },
     computed: {
       search_types() {
-        return this.$store.state.welcome.search_types;
+        return this.$store.state.search.search_types;
       },
       search_input: {
         get() {
-          return this.$store.state.welcome.search_input;
+          return this.$store.state.search.search_input;
         },
         set(value) {
           this.$store.commit('updateSearchInput', value)
@@ -47,7 +47,7 @@
       },
       search_type: {
         get() {
-          return this.$store.state.welcome.search_type;
+          return this.$store.state.search.search_type;
         },
         set(value) {
           this.$store.commit('updateSearchType', value)

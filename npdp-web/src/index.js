@@ -2,23 +2,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import ElementUI from 'element-ui';
+
 import 'element-ui/lib/theme-chalk/index.css';
+import './base.scss';
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
 
 import store from './store/index.js'
-import Welcome from './welcome/index.vue';
+import routes from './routes/index.js'
 
-import './base.scss';
-
-const routes = [
-  {
-    path: '/',
-    component: Welcome
-  }
-];
 
 const router = new VueRouter({
   routes
