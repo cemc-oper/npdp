@@ -1,6 +1,10 @@
 <template>
-  <el-input placeholder="请输入内容" v-model="c_search_input">
-    <el-select v-model="c_search_type" slot="prepend" placeholder="请选择">
+  <el-input
+    v-model="current_search_input"
+    placeholder="请输入内容"
+    v-on:keyup.enter.native="doSearch"
+  >
+    <el-select v-model="current_search_type" slot="prepend" placeholder="请选择">
       <el-option
         v-for="item in search_types"
         :key="item.value"
@@ -8,7 +12,7 @@
         :value="item.value">
       </el-option>
      </el-select>
-    <el-button slot="append" icon="el-icon-search"></el-button>
+    <el-button slot="append" icon="el-icon-search" v-on:click="doSearch"></el-button>
   </el-input>
 </template>
 
@@ -21,7 +25,7 @@
       'search_type'
     ],
     computed: {
-      c_search_input: {
+      current_search_input: {
         get() {
           return this.search_input;
         },
@@ -29,13 +33,21 @@
           this.$emit('updateSearchInput', value);
         }
       },
-      c_search_type: {
+      current_search_type: {
         get(){
           return this.search_type;
         },
         set(value){
           this.$emit('updateSearchType', value);
         }
+      }
+    },
+    methods: {
+      doSearch: function(event){
+        let search_type = this.current_search_type;
+        let search_context = this.current_search_input;
+        console.log("search type:", search_type);
+        console.log("search context:", search_context);
       }
     }
   }
