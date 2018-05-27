@@ -6,15 +6,11 @@
     <el-main class="npdp-cover-main">
       <el-row style="width:80%">
         <el-col :span="24">
-          <el-input placeholder="请输入内容" v-model="search_input">
-            <el-select v-model="search_type" slot="prepend" placeholder="请选择">
-              <el-option label="全部" value="all"></el-option>
-              <el-option label="FTP" value="destination"></el-option>
-              <el-option label="产品" value="product"></el-option>
-              <el-option label="模式" value="operation_system"></el-option>
-            </el-select>
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
+          <SearchBar
+            v-bind:search_input="search_input"
+            v-bind:search_type="search_type"
+            v-bind:search_types="search_types"
+          />
         </el-col>
       </el-row>
     </el-main>
@@ -29,22 +25,27 @@
 </template>
 
 <script>
-
+  import SearchBar from './search_bar.vue'
   export default {
     name: 'Welcome',
+    components: {
+      SearchBar
+    },
     computed: {
+      search_types() {
+        return this.$store.state.welcome.search_types;
+      },
       search_input: {
         get() {
-          return this.$store.state.search_input;
+          return this.$store.state.welcome.search_input;
         },
         set(value) {
           this.$store.commit('updateSearchInput', value)
         }
       },
-
       search_type: {
         get() {
-          return this.$store.state.search_type;
+          return this.$store.state.welcome.search_type;
         },
         set(value) {
           this.$store.commit('updateSearchType', value)
