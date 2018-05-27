@@ -10,6 +10,8 @@
             v-bind:search_input="search_input"
             v-bind:search_type="search_type"
             v-bind:search_types="search_types"
+            v-on:updateSearchInput="search_input=$event"
+            v-on:updateSearchType="search_type=$event"
           />
         </el-col>
       </el-row>
@@ -51,6 +53,9 @@
           this.$store.commit('updateSearchType', value)
         }
       }
+    },
+    methods: {
+
     }
   }
 </script>

@@ -26,7 +26,7 @@
           return this.search_input;
         },
         set(value) {
-          this.$store.commit('updateSearchInput', value);
+          this.$emit('updateSearchInput', value);
         }
       },
       c_search_type: {
@@ -34,14 +34,8 @@
           return this.search_type;
         },
         set(value){
-          this.$store.commit('updateSearchType', value);
+          this.$emit('updateSearchType', value);
         }
-      }
-    },
-    methods: {
-      updateSearchType: function(value){
-        console.log("[search_bar][updateSearchType] value:", value);
-        this.c_search_type = value;
       }
     }
   }
