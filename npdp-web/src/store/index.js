@@ -28,11 +28,9 @@ const search_store = {
   },
   mutations: {
     updateSearchInput(state, text){
-      // console.log('updateSearchInput:', text);
       state.search_input = text;
     },
     updateSearchType(state, stype){
-      console.log('updateSearchType:', stype);
       state.search_type = stype;
     },
     updateSearch(state, payload){

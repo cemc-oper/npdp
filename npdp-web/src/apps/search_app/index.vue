@@ -18,21 +18,20 @@
       Search Results
     </el-main>
     <el-footer>
-      <el-row>
-        <el-col :span="12">
-          <p>Copyright 2018, NWPC</p>
-        </el-col>
-      </el-row>
+      <Footer/>
     </el-footer>
   </el-container>
 </template>
 
 <script>
   import SearchBar from '../../components/search_bar.vue'
+  import Footer from '../../components/footer.vue'
+
   export default {
     name: 'SearchApp',
     components: {
-      SearchBar
+      SearchBar,
+      Footer
     },
     props:[
       'type',
@@ -63,7 +62,6 @@
 
     },
     mounted: function(){
-      console.log("SearchApp.mounted.");
       this.$store.commit('updateSearch', {
         search_type: this.type,
         search_input: this.context

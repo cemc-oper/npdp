@@ -18,21 +18,20 @@
       </el-row>
     </el-main>
     <el-footer class="npdp-cover-footer">
-      <el-row>
-        <el-col :span="12">
-          <p>Copyright 2018, NWPC</p>
-        </el-col>
-      </el-row>
+      <Footer/>
     </el-footer>
   </el-container>
 </template>
 
 <script>
   import SearchBar from '../../components/search_bar.vue'
+  import Footer from '../../components/footer.vue'
+
   export default {
     name: 'WelcomeApp',
     components: {
-      SearchBar
+      SearchBar,
+      Footer
     },
     computed: {
       search_types() {
