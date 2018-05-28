@@ -10,9 +10,9 @@
             v-bind:search_input="search_input"
             v-bind:search_type="search_type"
             v-bind:search_types="search_types"
-            v-on:updateSearchInput="search_input=$event"
-            v-on:updateSearchType="search_type=$event"
-            v-on:doSearch="doSearch"
+            v-on:update-search-input="search_input=$event"
+            v-on:updaet-search-type="search_type=$event"
+            v-on:do-search="doSearch"
           />
         </el-col>
       </el-row>
@@ -59,8 +59,8 @@
         this.$router.push({
           path: 'search',
           query: {
-            type: payload.type,
-            context: payload.context
+            type: payload.search_type,
+            context: payload.search_context
           }
         })
       }
