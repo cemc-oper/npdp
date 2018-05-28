@@ -1,0 +1,10 @@
+npdp_server:
+  debug:
+    flask_debug: on # on or false
+
+  host:
+    ip: ip address
+    port: port number
+
+  # a secret key for Flask application.
+  secret_key: some secret key
