@@ -1,4 +1,6 @@
 # coding=utf-8
+import time
+
 from flask import Blueprint, request, current_app, jsonify
 from py2neo import Graph, NodeSelector
 
@@ -12,6 +14,7 @@ def search():
 
     database_config = current_app.config['SERVER_CONFIG']['database']
 
+    print("[api_v1_app] /search: connecting to neo4j...")
     database = Graph(
         "{protocol}://{ip}:{port}".format(
             protocol=database_config['connection']['protocol'],
@@ -24,15 +27,59 @@ def search():
 
     if search_type == "operation_system":
         selector = NodeSelector(database)
-        print(list(selector.select("OperationSystem")
-                   .where("_.name =~ '.*{context}.*'".format(context=search_context))))
+        records = selector.select("OperationSystem")\
+            .where("_.name =~ '.*{context}.*' or _.host =~ '.*{context}.*".format(context=search_context))
+        result_list = []
+        for record in records:
+            result_list.append(dict(record))
+        result = {
+            'app': 'npdp-server',
+            'api': 'search',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'ok',
+                'request': request.form,
+                'operation_systems': result_list
+            }
+        }
     elif search_type == "ftp":
-        pass
+        selector = NodeSelector(database)
+        records = selector.select("FTPServer") \
+            .where("_.name =~ '.*{context}.*'".format(context=search_context))
+        result_list = []
+        for record in records:
+            result_list.append(dict(record))
+        result = {
+            'app': 'npdp-server',
+            'api': 'search',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'ok',
+                'request': request.form,
+                'operation_systems': result_list
+            }
+        }
     elif search_type == "all":
-        pass
+        result = {
+            'app': 'npdp-server',
+            'api': 'search',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'error',
+                'message': 'type not implemented.',
+                'request': request.form,
+            }
+        }
     else:
-        pass
+        result = {
+            'app': 'npdp-server',
+            'api': 'search',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'error',
+                'message': 'type not supported.',
+                'request': request.form
+            }
+        }
 
-    return jsonify({
-        'status': 'ok'
-    })
+    return jsonify(result)
