@@ -27,6 +27,7 @@ def create_app(config_file_path=None, static_folder=None, template_folder=None):
                 template_folder=template_folder)
 
     from npdp_server.common.config import Config
+    print('create_app: config_file_path=', config_file_path)
     app.config.from_object(Config.load_config(config_file_path))
     app.json_encoder = NPDPServerJSONEncoder
 

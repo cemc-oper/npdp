@@ -8,3 +8,12 @@ npdp_server:
 
   # a secret key for Flask application.
   secret_key: some secret key
+
+  database:
+    type: neo4j
+    host:
+      ip: ip address
+      port: port number
+    account:
+      user: user
+      password: password

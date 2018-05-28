@@ -12,7 +12,9 @@ import sys
 @click.option('-t', '--template-folder', help='template folder')
 def runserver(config_file, static_folder, template_folder):
     from npdp_server import create_app
-    app = create_app(config_file, Path(static_folder).absolute(), Path(template_folder).absolute())
+    app = create_app(config_file,
+                     str(Path(static_folder).absolute()),
+                     str(Path(template_folder).absolute()))
 
     app.run(
         host=app.config['SERVER_CONFIG']['host']['ip'],
