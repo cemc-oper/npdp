@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
   state: {
     search_input: '',
@@ -36,8 +38,18 @@ export default {
   actions: {
     executeSearch(context, payload){
       const {commit, state} = context;
-      const {search_type, search_context} = payload;
-      console.log("Execute search in actions.");
+      console.log("Execute search in actions.", payload);
+
+      async function fetchSearchAPI(){
+        try {
+          const response = await axios.post('/api/v1/search', payload);
+          console.log(response);
+        } catch (error){
+          console.error(error);
+        }
+      }
+
+      fetchSearchAPI();
 
     }
   }

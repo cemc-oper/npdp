@@ -2,7 +2,7 @@
   <el-container id="app">
     <el-header>
       <el-row type="flex" align="middle">
-        <el-col :span="2"><h1>NPDP</h1></el-col>
+        <el-col :span="2"><h1><router-link to="/" style="text-decoration:none;">NPDP</router-link></h1></el-col>
         <el-col :span="20">
           <SearchBar
             :search_input="search_input"
@@ -36,7 +36,7 @@
     },
     props:[
       'type',
-      'context'
+      'input'
     ],
     computed: {
       search_types() {
@@ -68,7 +68,7 @@
     mounted: function(){
       const payload = {
         search_type: this.type,
-        search_input: this.context
+        search_input: this.input
       };
       this.$store.commit('updateSearch', payload);
       this.doSearch(payload);

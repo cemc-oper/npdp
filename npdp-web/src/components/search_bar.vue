@@ -17,6 +17,8 @@
 </template>
 
 <script>
+  import "babel-polyfill";
+
   export default {
     name: 'SearchBar',
     props: [
@@ -45,10 +47,10 @@
     methods: {
       doSearch: function(event){
         let search_type = this.current_search_type;
-        let search_context = this.current_search_input;
+        let search_input = this.current_search_input;
         this.$emit('do-search', {
           search_type: search_type,
-          search_context: search_context
+          search_input: search_input
         })
       }
     }

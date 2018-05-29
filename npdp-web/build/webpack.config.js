@@ -8,7 +8,10 @@ const dist_path = path.resolve(__dirname, '../../dist');
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
-  entry: './src/index.js',
+  entry: [
+    'babel-polyfill',
+    './src/index.js'
+  ],
   output: {
     filename: 'bundle.js',
     path: path.resolve(dist_path, './static/js')

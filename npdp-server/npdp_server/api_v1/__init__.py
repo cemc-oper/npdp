@@ -9,8 +9,9 @@ api_v1_app = Blueprint('api_v1_app', __name__)
 
 @api_v1_app.route('/search', methods=['POST'])
 def search():
-    search_type = request.form['type']
-    search_context = request.form['context']
+    print(request.json)
+    search_type = request.json['search_type']
+    search_input = request.json['search_input']
 
     database_config = current_app.config['SERVER_CONFIG']['database']
 
@@ -28,7 +29,7 @@ def search():
     if search_type == "operation_system":
         selector = NodeSelector(database)
         records = selector.select("OperationSystem")\
-            .where("_.name =~ '.*{context}.*' or _.host =~ '.*{context}.*".format(context=search_context))
+            .where("_.name =~ '.*{input}.*'".format(input=search_input))
         result_list = []
         for record in records:
             result_list.append(dict(record))
@@ -45,7 +46,7 @@ def search():
     elif search_type == "ftp":
         selector = NodeSelector(database)
         records = selector.select("FTPServer") \
-            .where("_.name =~ '.*{context}.*'".format(context=search_context))
+            .where("_.name =~ '.*{input}.*' or _.host =~ '.*{input}.*".format(input=search_input))
         result_list = []
         for record in records:
             result_list.append(dict(record))

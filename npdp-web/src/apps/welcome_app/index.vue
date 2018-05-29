@@ -11,7 +11,7 @@
             v-bind:search_type="search_type"
             v-bind:search_types="search_types"
             v-on:update-search-input="search_input=$event"
-            v-on:updaet-search-type="search_type=$event"
+            v-on:update-search-type="search_type=$event"
             v-on:do-search="doSearch"
           />
         </el-col>
@@ -60,7 +60,7 @@
           path: 'search',
           query: {
             type: payload.search_type,
-            context: payload.search_context
+            input: payload.search_input
           }
         })
       }
