@@ -16,7 +16,9 @@
       </el-row>
     </el-header>
     <el-main>
-      Search Results
+      <SearchResultList
+        :search_results="search_results"
+      />
     </el-main>
     <el-footer>
       <Footer/>
@@ -27,12 +29,14 @@
 <script>
   import SearchBar from '../../components/search_bar.vue'
   import Footer from '../../components/footer.vue'
+  import SearchResultList from '../../components/search_result_list.vue'
 
   export default {
     name: 'SearchApp',
     components: {
       SearchBar,
-      Footer
+      Footer,
+      SearchResultList
     },
     props:[
       'type',
@@ -57,11 +61,26 @@
         set(value) {
           this.$store.commit('updateSearchType', value)
         }
+      },
+      search_results: {
+        get(){
+          return this.$store.state.search.search_results;
+        }
       }
     },
     methods: {
       doSearch: function(payload){
-        console.log('[SearchApp] doSearch', payload);
+        this.$router.push({
+          path: 'search',
+          query: {
+            type: payload.search_type,
+            input: payload.search_input
+          }
+        });
+        this.executeSearch(payload);
+      },
+      executeSearch: function(payload){
+        console.log('[SearchApp][executeSearch]', payload);
         this.$store.dispatch('executeSearch', payload);
       }
     },
@@ -71,7 +90,7 @@
         search_input: this.input
       };
       this.$store.commit('updateSearch', payload);
-      this.doSearch(payload);
+      this.executeSearch(payload);
     }
   }
 </script>
