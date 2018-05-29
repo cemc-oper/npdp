@@ -10,7 +10,7 @@ export default {
         label: '全部'
       },
       {
-        value: 'destination',
+        value: 'ftp',
         label: 'FTP'
       },
       {

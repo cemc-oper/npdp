@@ -26,51 +26,16 @@ def search():
         password=database_config['auth']['password']
     )
 
+    selector = NodeSelector(database)
     if search_type == "operation_system":
-        selector = NodeSelector(database)
         records = selector.select("OperationSystem")\
-            .where("_.name =~ '.*{input}.*'".format(input=search_input))
-        result_list = []
-        for record in records:
-            result_list.append(dict(record))
-        result = {
-            'app': 'npdp-server',
-            'api': 'search',
-            'timestamp': time.time(),
-            'data': {
-                'status': 'ok',
-                'request': request.form,
-                'operation_systems': result_list
-            }
-        }
+            .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     elif search_type == "ftp":
-        selector = NodeSelector(database)
         records = selector.select("FTPServer") \
-            .where("_.name =~ '.*{input}.*' or _.host =~ '.*{input}.*".format(input=search_input))
-        result_list = []
-        for record in records:
-            result_list.append(dict(record))
-        result = {
-            'app': 'npdp-server',
-            'api': 'search',
-            'timestamp': time.time(),
-            'data': {
-                'status': 'ok',
-                'request': request.form,
-                'operation_systems': result_list
-            }
-        }
+            .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     elif search_type == "all":
-        result = {
-            'app': 'npdp-server',
-            'api': 'search',
-            'timestamp': time.time(),
-            'data': {
-                'status': 'error',
-                'message': 'type not implemented.',
-                'request': request.form,
-            }
-        }
+        records = selector.select()\
+            .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     else:
         result = {
             'app': 'npdp-server',
@@ -82,5 +47,24 @@ def search():
                 'request': request.form
             }
         }
+        return jsonify(result)
+
+    result_list = []
+    for record in records:
+        node_dict = {
+            'labels': list(record.labels()),
+            'props': dict(record)
+        }
+        result_list.append(node_dict)
+    result = {
+        'app': 'npdp-server',
+        'api': 'search',
+        'timestamp': time.time(),
+        'data': {
+            'status': 'ok',
+            'request': request.form,
+            'results': result_list
+        }
+    }
 
     return jsonify(result)
