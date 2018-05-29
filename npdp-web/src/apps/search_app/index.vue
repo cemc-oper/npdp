@@ -1,9 +1,9 @@
 <template>
-  <el-container id="app">
-    <el-header>
-      <el-row type="flex" align="middle">
-        <el-col :span="2"><h1><router-link to="/" style="text-decoration:none;">NPDP</router-link></h1></el-col>
-        <el-col :span="20">
+  <Layout id="app">
+    <Header>
+      <Row type="flex" align="middle">
+        <Col span="2"><h1><router-link to="/" style="text-decoration:none;color:white">NPDP</router-link></h1></Col>
+        <Col span="20">
           <SearchBar
             :search_input="search_input"
             :search_type="search_type"
@@ -12,30 +12,30 @@
             @update-search-type="search_type=$event"
             @do-search="doSearch"
           />
-        </el-col>
-      </el-row>
-    </el-header>
-    <el-main>
+        </Col>
+      </Row>
+    </Header>
+    <Content>
       <SearchResultList
         :search_results="search_results"
       />
-    </el-main>
-    <el-footer>
-      <Footer/>
-    </el-footer>
-  </el-container>
+    </Content>
+    <Footer>
+      <NPDPFooter/>
+    </Footer>
+  </Layout>
 </template>
 
 <script>
   import SearchBar from '../../components/search_bar.vue'
-  import Footer from '../../components/footer.vue'
+  import NPDPFooter from '../../components/footer.vue'
   import SearchResultList from '../../components/search_result_list.vue'
 
   export default {
     name: 'SearchApp',
     components: {
       SearchBar,
-      Footer,
+      NPDPFooter,
       SearchResultList
     },
     props:[

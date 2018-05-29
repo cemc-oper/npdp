@@ -13,6 +13,7 @@ module.exports = {
     './src/index.js'
   ],
   output: {
+    publicPath: '/static/js/',
     filename: 'bundle.js',
     path: path.resolve(dist_path, './static/js')
   },

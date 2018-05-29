@@ -1,11 +1,11 @@
 <template>
-  <el-container id="app" class="npdp-cover-container">
-    <el-header class="npdp-cover-header">
-      <h1>NPDP</h1>
-    </el-header>
-    <el-main class="npdp-cover-main">
-      <el-row style="width:80%">
-        <el-col :span="24">
+  <Layout id="app" class="npdp-cover-container">
+    <Header class="npdp-cover-header">
+      <h1 style="color:white">NPDP</h1>
+    </Header>
+    <Content class="npdp-cover-main">
+      <Row style="width:80%">
+        <Col span="24">
           <SearchBar
             v-bind:search_input="search_input"
             v-bind:search_type="search_type"
@@ -14,24 +14,24 @@
             v-on:update-search-type="search_type=$event"
             v-on:do-search="doSearch"
           />
-        </el-col>
-      </el-row>
-    </el-main>
-    <el-footer class="npdp-cover-footer">
-      <Footer/>
-    </el-footer>
-  </el-container>
+        </Col>
+      </Row>
+    </Content>
+    <Footer class="npdp-cover-footer">
+      <NPDPFooter/>
+    </Footer>
+  </Layout>
 </template>
 
 <script>
   import SearchBar from '../../components/search_bar.vue'
-  import Footer from '../../components/footer.vue'
+  import NPDPFooter from '../../components/footer.vue'
 
   export default {
     name: 'WelcomeApp',
     components: {
       SearchBar,
-      Footer
+      NPDPFooter
     },
     computed: {
       search_types() {

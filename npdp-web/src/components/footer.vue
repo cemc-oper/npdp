@@ -1,9 +1,9 @@
 <template>
-  <el-row>
-    <el-col :span="12">
+  <Row>
+    <Col span="12">
       <p>Copyright 2018, NWPC</p>
-    </el-col>
-  </el-row>
+    </Col>
+  </Row>
 </template>
 
 <script>

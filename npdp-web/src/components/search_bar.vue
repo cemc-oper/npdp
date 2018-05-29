@@ -1,19 +1,18 @@
 <template>
-  <el-input
+  <Input
     v-model="current_search_input"
     placeholder="请输入内容"
-    v-on:keyup.enter.native="doSearch"
-  >
-    <el-select v-model="current_search_type" slot="prepend" placeholder="请选择">
-      <el-option
+    v-on:keyup.enter.native="doSearch">
+    <Select v-model="current_search_type" slot="prepend" placeholder="请选择">
+      <Option
         v-for="item in search_types"
         :key="item.value"
-        :label="item.label"
         :value="item.value">
-      </el-option>
-     </el-select>
-    <el-button slot="append" icon="el-icon-search" v-on:click="doSearch"></el-button>
-  </el-input>
+        {{item.label}}
+      </Option>
+    </Select>
+    <Button slot="append" icon="ios-search" v-on:click="doSearch"></Button>
+  </Input>
 </template>
 
 <script>
@@ -58,7 +57,7 @@
 </script>
 
 <style scoped>
-  .el-select {
+  .ivu-select {
     min-width: 100px;
   }
 </style>
