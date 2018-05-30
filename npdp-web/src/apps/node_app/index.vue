@@ -16,31 +16,38 @@
       </Row>
     </Header>
     <Content>
-      <SearchResultList
-        :search_results="search_results"
-      />
+      <h1>Node</h1>
+      <p>{{id}}</p>
+      <div>
+        <h2>Props</h2>
+      </div>
+      <div>
+        <h2>Chart</h2>
+      </div>
+      <div>
+        <h2>Relationship</h2>
+      </div>
     </Content>
     <Footer>
       <NPDPFooter/>
     </Footer>
   </Layout>
+
 </template>
 
 <script>
   import SearchBar from '../../components/search_bar.vue'
   import NPDPFooter from '../../components/footer.vue'
-  import SearchResultList from '../../components/search_result_list.vue'
+
 
   export default {
-    name: 'SearchApp',
+    name: 'NodeApp',
     components: {
       SearchBar,
-      NPDPFooter,
-      SearchResultList
+      NPDPFooter
     },
-    props:[
-      'type',
-      'input'
+    props: [
+      'id'
     ],
     computed: {
       search_types() {
@@ -62,47 +69,20 @@
           this.$store.commit('updateSearchType', value)
         }
       },
-      search_results: {
-        get(){
-          return this.$store.state.search.search_results;
-        }
-      }
     },
     methods: {
-      doSearch: function(payload){
+      doSearch: function(payload) {
         this.$router.push({
-          path: 'search',
+          path: '/search',
           query: {
             type: payload.search_type,
             input: payload.search_input
           }
         });
-      },
-      executeSearch: function(payload){
-        console.log('[SearchApp][executeSearch]', payload);
-        this.$store.dispatch('executeSearch', payload);
       }
     },
     mounted: function(){
-      const payload = {
-        search_type: this.type,
-        search_input: this.input
-      };
-      this.$store.commit('updateSearch', payload);
-      this.executeSearch(payload);
-    },
-    beforeRouteUpdate(to, from, next){
-      console.log('[SearchApp][beforeRouteUpdate]');
-      const payload = {
-        search_type: to.query.type,
-        search_input: to.query.input
-      };
-      this.$store.commit('updateSearch', payload);
-      this.executeSearch(payload);
-      next();
+      const node_id = this.id;
     }
   }
 </script>
-
-<style scoped>
-</style>

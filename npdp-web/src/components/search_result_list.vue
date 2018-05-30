@@ -5,7 +5,7 @@
         <Row v-for="(record, index) in search_results" :key="index" class="search-record">
           <Col span="24">
             <Row>
-              <h3>{{record.props.name}}</h3>
+              <h3><router-link :to="getNodeIdURL(record)">{{record.props.name}}</router-link></h3>
             </Row>
             <Row>
               <LabelTag v-for="(label, index) in record.labels" :key="index"
@@ -52,16 +52,25 @@
           tag_color_map.set(value, d3sc.interpolateRainbow(current_value));
           current_value+=step;
         });
-        console.log(tag_color_map);
+        // console.log(tag_color_map);
         return tag_color_map;
+      }
+    },
+    methods: {
+      getNodeIdURL: function(record){
+        const {id} = record;
+        return `/node/ids/${id}`;
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .search-record {
     margin-top: 10px;
     margin-bottom: 10px;
+    h3 {
+      font-size: 18px;
+    }
   }
 </style>

@@ -10,8 +10,6 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(iView);
 
-console.log('using iView');
-
 import store from './store/index.js'
 import routes from './routes/index.js'
 

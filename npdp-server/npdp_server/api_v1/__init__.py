@@ -53,7 +53,8 @@ def search():
     for record in records:
         node_dict = {
             'labels': list(record.labels()),
-            'props': dict(record)
+            'props': dict(record),
+            'id': record.__remote__._id
         }
         result_list.append(node_dict)
     result = {

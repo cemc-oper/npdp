@@ -43,12 +43,12 @@ export default {
   actions: {
     executeSearch(context, payload){
       const {commit, state} = context;
-      console.log("Execute search in actions.", payload);
+      console.log("[Store][search][executeSearch]", payload);
 
       async function fetchSearchAPI(){
         try {
           const response = await axios.post('/api/v1/search', payload);
-          console.log(response);
+          // console.log(response);
           const {data} = response.data;
           const {status} = data;
           if(status==='ok'){
