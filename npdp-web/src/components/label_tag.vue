@@ -14,7 +14,7 @@
     computed: {
       label_color: function(){
         if (this.tag_color_map.has(this.label)){
-          return this.tag_color_map[this.label];
+          return this.tag_color_map.get(this.label);
         } else {
           return 'blue';
         }

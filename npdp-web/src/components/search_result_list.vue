@@ -24,6 +24,7 @@
 </template>
 
 <script>
+  import * as d3sc from 'd3-scale-chromatic' ;
   import LabelTag from './label_tag.vue'
 
   export default {
@@ -44,8 +45,15 @@
             color_set.add(label);
           })
         });
-        console.log(search_results);
-        return new Map();
+        let tag_color_map = new Map();
+        let step=1.0/(color_set.size+1);
+        let current_value = 0.0;
+        color_set.forEach((value) => {
+          tag_color_map.set(value, d3sc.interpolateRainbow(current_value));
+          current_value+=step;
+        });
+        console.log(tag_color_map);
+        return tag_color_map;
       }
     }
   }
