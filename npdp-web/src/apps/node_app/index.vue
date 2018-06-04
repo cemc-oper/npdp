@@ -16,16 +16,35 @@
       </Row>
     </Header>
     <Content>
-      <h1>Node</h1>
+      <h1>{{current_node.props?current_node.props.name:null}}</h1>
       <p>{{id}}</p>
+      <Row>
+        <Col span="12">
+          <LabelTag v-for="(label, index) in current_node.labels" :key="index"
+                    :tag_color_map="tag_color_map"
+                    :label="label"
+          ></LabelTag>
+        </Col>
+      </Row>
       <div>
         <h2>Props</h2>
+        <Row>
+          <Col span="12">
+            <Table :columns="prop_table_data.columns1" :data="prop_table_data.data1"></Table>
+          </Col>
+        </Row>
       </div>
       <div>
         <h2>Chart</h2>
+        <div>
+          under construction...
+        </div>
       </div>
       <div>
         <h2>Relationship</h2>
+        <div>
+          under construction...
+        </div>
       </div>
     </Content>
     <Footer>
@@ -38,13 +57,16 @@
 <script>
   import SearchBar from '../../components/search_bar.vue'
   import NPDPFooter from '../../components/footer.vue'
+  import LabelTag from '../../components/label_tag.vue'
+  import {generateTagColorMap} from '../../util/label.js'
 
 
   export default {
     name: 'NodeApp',
     components: {
       SearchBar,
-      NPDPFooter
+      NPDPFooter,
+      LabelTag
     },
     props: [
       'id'
@@ -69,6 +91,42 @@
           this.$store.commit('updateSearchType', value)
         }
       },
+      current_node() {
+        return this.$store.state.node.current_node;
+      },
+      tag_color_map() {
+        const labels = this.current_node.labels;
+        let color_set = new Set();
+        labels.forEach((item, i)=>{
+          color_set.add(item);
+        });
+        const tag_color_map = generateTagColorMap(color_set);
+        return tag_color_map;
+      },
+      prop_table_data() {
+        const {props} = this.current_node;
+        let columns1 = [
+          {
+            title: 'Prop name',
+            key: 'name'
+          },
+          {
+            title: 'Prop value',
+            key: 'value'
+          }
+        ];
+        let data1 = [];
+        for(let prop in props){
+          data1.push({
+            name: prop,
+            value: props[prop]
+          })
+        }
+        return {
+          columns1: columns1,
+          data1: data1
+        }
+      }
     },
     methods: {
       doSearch: function(payload) {
@@ -83,6 +141,11 @@
     },
     mounted: function(){
       const node_id = this.id;
+      const payload = {
+        id: node_id
+      };
+      console.log('[NodeApp][mounted]', payload);
+      this.$store.dispatch('queryNodeById', payload);
     }
   }
 </script>

@@ -28,13 +28,13 @@ def search():
 
     selector = NodeSelector(database)
     if search_type == "operation_system":
-        records = selector.select("OperationSystem")\
+        records = selector.select("OperationSystem") \
             .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     elif search_type == "ftp":
         records = selector.select("FTPServer") \
             .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     elif search_type == "all":
-        records = selector.select()\
+        records = selector.select() \
             .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     else:
         result = {
@@ -65,6 +65,64 @@ def search():
             'status': 'ok',
             'request': request.form,
             'results': result_list
+        }
+    }
+
+    return jsonify(result)
+
+
+@api_v1_app.route('/node/ids/<node_id>', methods=['GET'])
+def query_node_by_id(node_id):
+
+    database_config = current_app.config['SERVER_CONFIG']['database']
+
+    print("[api_v1_app] /search: connecting to neo4j...")
+    database = Graph(
+        "{protocol}://{ip}:{port}".format(
+            protocol=database_config['connection']['protocol'],
+            ip=database_config['connection']['ip'],
+            port=database_config['connection']['port']
+        ),
+        user=database_config['auth']['user'],
+        password=database_config['auth']['password']
+    )
+
+    selector = NodeSelector(database)
+    records = list(selector.select()
+                   .where("id(_)={node_id}".format(node_id=node_id)))
+
+    if len(records) == 0:
+        result = {
+            'app': 'npdp-server',
+            'api': 'node/ids',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'error',
+                'message': "can't find node by id.",
+                'request': {
+                    'id': node_id
+                }
+            }
+        }
+        return jsonify(result)
+
+    record = records[0]
+    node_dict = {
+        'labels': list(record.labels()),
+        'props': dict(record),
+        'id': node_id
+    }
+
+    result = {
+        'app': 'npdp-server',
+        'api': 'node/ids',
+        'timestamp': time.time(),
+        'data': {
+            'status': 'ok',
+            'request': {
+                'id': node_id
+            },
+            'node': node_dict
         }
     }
 
