@@ -6,6 +6,10 @@ from py2neo import Graph, NodeSelector
 
 api_v1_app = Blueprint('api_v1_app', __name__)
 
+import npdp_server.api_v1.node
+import npdp_server.api_v1.relationship
+from npdp_server.common.database import get_node_dict
+
 
 @api_v1_app.route('/search', methods=['POST'])
 def search():
@@ -51,11 +55,7 @@ def search():
 
     result_list = []
     for record in records:
-        node_dict = {
-            'labels': list(record.labels()),
-            'props': dict(record),
-            'id': record.__remote__._id
-        }
+        node_dict = get_node_dict(record)
         result_list.append(node_dict)
     result = {
         'app': 'npdp-server',
@@ -65,64 +65,6 @@ def search():
             'status': 'ok',
             'request': request.form,
             'results': result_list
-        }
-    }
-
-    return jsonify(result)
-
-
-@api_v1_app.route('/node/ids/<node_id>', methods=['GET'])
-def query_node_by_id(node_id):
-
-    database_config = current_app.config['SERVER_CONFIG']['database']
-
-    print("[api_v1_app] /search: connecting to neo4j...")
-    database = Graph(
-        "{protocol}://{ip}:{port}".format(
-            protocol=database_config['connection']['protocol'],
-            ip=database_config['connection']['ip'],
-            port=database_config['connection']['port']
-        ),
-        user=database_config['auth']['user'],
-        password=database_config['auth']['password']
-    )
-
-    selector = NodeSelector(database)
-    records = list(selector.select()
-                   .where("id(_)={node_id}".format(node_id=node_id)))
-
-    if len(records) == 0:
-        result = {
-            'app': 'npdp-server',
-            'api': 'node/ids',
-            'timestamp': time.time(),
-            'data': {
-                'status': 'error',
-                'message': "can't find node by id.",
-                'request': {
-                    'id': node_id
-                }
-            }
-        }
-        return jsonify(result)
-
-    record = records[0]
-    node_dict = {
-        'labels': list(record.labels()),
-        'props': dict(record),
-        'id': node_id
-    }
-
-    result = {
-        'app': 'npdp-server',
-        'api': 'node/ids',
-        'timestamp': time.time(),
-        'data': {
-            'status': 'ok',
-            'request': {
-                'id': node_id
-            },
-            'node': node_dict
         }
     }
 
