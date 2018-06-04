@@ -42,9 +42,11 @@
       </div>
       <div>
         <h2>Relationship</h2>
-        <div>
-          under construction...
-        </div>
+        <Row>
+          <Col span="20">
+            <Table :columns="relation_table_data.columns" :data="relation_table_data.data"></Table>
+          </Col>
+        </Row>
       </div>
     </Content>
     <Footer>
@@ -94,6 +96,9 @@
       current_node() {
         return this.$store.state.node.current_node;
       },
+      relationships() {
+        return this.$store.state.node.relationships;
+      },
       tag_color_map() {
         const labels = this.current_node.labels;
         let color_set = new Set();
@@ -126,6 +131,32 @@
           columns1: columns1,
           data1: data1
         }
+      },
+      relation_table_data(){
+        const relationships = this.relationships;
+        let columns = [
+          { title: 'Start Node', key: 'start_node' },
+          { title: 'Relation Type', key:'type' },
+          { title: 'End Node', key: 'end_node' }
+        ];
+        let data = [];
+        relationships.forEach((relation, index)=>{
+          let item = {
+            type: relation['type'],
+          };
+          if('start_node' in relation){
+            item['start_node'] = relation['start_node']['props']['name'];
+            item['end_node'] = 'current';
+          } else {
+            item['end_node'] = relation['end_node']['props']['name'];
+            item['start_node'] = 'current';
+          }
+          data.push(item);
+        });
+        return {
+          columns: columns,
+          data: data
+        }
       }
     },
     methods: {
@@ -146,6 +177,7 @@
       };
       console.log('[NodeApp][mounted]', payload);
       this.$store.dispatch('queryNodeById', payload);
+      this.$store.dispatch('queryNodeRelationshipsById', payload);
     }
   }
 </script>

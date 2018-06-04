@@ -66,7 +66,7 @@ def query_node_by_id(node_id):
     return jsonify(result)
 
 
-@api_v1_app.route('/node/ids/<int:node_id>/relationship', methods=['GET'])
+@api_v1_app.route('/node/ids/<int:node_id>/relationships', methods=['GET'])
 def query_node_relationship_by_id(node_id):
     database_config = current_app.config['SERVER_CONFIG']['database']
 

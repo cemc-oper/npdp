@@ -7,11 +7,15 @@ export default {
       props: {},
       labels: [],
       id: null
-    }
+    },
+    relationships: []
   },
   mutations: {
     updateCurrentNode(state, payload){
       state.current_node = payload.current_node;
+    },
+    updateRelationships(state, payload){
+      state.relationships = payload.relationships;
     }
   },
   actions: {
@@ -35,6 +39,27 @@ export default {
       }
 
       fetchQueryNodeAPI();
+    },
+    queryNodeRelationshipsById(context, payload){
+      const {commit} = context;
+      async function fetchQueryNodeRelationshipsAPI(){
+        try{
+          const {id} = payload;
+          const response = await axios.get(`/api/v1/node/ids/${id}/relationships`);
+          const {data} = response.data;
+          const {status} = data;
+          if(status === "ok"){
+            const {relationships} = data;
+            commit('updateRelationships', {
+              relationships: relationships
+            })
+          }
+        } catch (error) {
+          console.error('[search_store][queryNodeRelationshipsById] error:', error);
+        }
+      }
+
+      fetchQueryNodeRelationshipsAPI();
     }
   }
 };
