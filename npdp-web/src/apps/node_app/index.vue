@@ -17,7 +17,6 @@
     </Header>
     <Content>
       <h1>{{current_node.props?current_node.props.name:null}}</h1>
-      <p>{{id}}</p>
       <Row>
         <Col span="12">
           <LabelTag v-for="(label, index) in current_node.labels" :key="index"
@@ -60,6 +59,7 @@
   import SearchBar from '../../components/search_bar.vue'
   import NPDPFooter from '../../components/footer.vue'
   import LabelTag from '../../components/label_tag.vue'
+  import RelationShipTableNode from '../../components/relation_ship_table_node.vue'
   import {generateTagColorMap} from '../../util/label.js'
 
 
@@ -135,9 +135,40 @@
       relation_table_data(){
         const relationships = this.relationships;
         let columns = [
-          { title: 'Start Node', key: 'start_node' },
-          { title: 'Relation Type', key:'type' },
-          { title: 'End Node', key: 'end_node' }
+          {
+            title: 'Start Node',
+            key: 'start_node',
+            render: (h, params)=>{
+              if(params.row.start_node === 'current'){
+                return h('div', {}, 'current');
+              }
+
+              return h(RelationShipTableNode, {
+                props:{
+                  node: params.row.start_node
+                }
+              })
+            }
+          },
+          {
+            title: 'Relation Type',
+            key:'type'
+          },
+          {
+            title: 'End Node',
+            key: 'end_node',
+            render: (h, params)=>{
+              if(params.row.end_node === 'current'){
+                return h('div', {}, 'current');
+              }
+
+              return h(RelationShipTableNode, {
+                props:{
+                  node: params.row.end_node
+                }
+              })
+            }
+          }
         ];
         let data = [];
         relationships.forEach((relation, index)=>{
@@ -145,10 +176,10 @@
             type: relation['type'],
           };
           if('start_node' in relation){
-            item['start_node'] = relation['start_node']['props']['name'];
+            item['start_node'] = relation['start_node'];
             item['end_node'] = 'current';
           } else {
-            item['end_node'] = relation['end_node']['props']['name'];
+            item['end_node'] = relation['end_node'];
             item['start_node'] = 'current';
           }
           data.push(item);
@@ -168,6 +199,10 @@
             input: payload.search_input
           }
         });
+      },
+      executeQuery: function(payload){
+        this.$store.dispatch('queryNodeById', payload);
+        this.$store.dispatch('queryNodeRelationshipsById', payload);
       }
     },
     mounted: function(){
@@ -175,9 +210,16 @@
       const payload = {
         id: node_id
       };
-      console.log('[NodeApp][mounted]', payload);
-      this.$store.dispatch('queryNodeById', payload);
-      this.$store.dispatch('queryNodeRelationshipsById', payload);
+      // console.log('[NodeApp][mounted]', payload);
+      this.executeQuery(payload);
+    },
+    beforeRouteUpdate(to, from, next){
+      // console.log('[NodeApp][beforeRouteUpdate]');
+      const payload = {
+        id: to.params.id
+      };
+      this.executeQuery(payload);
+      next();
     }
   }
 </script>
