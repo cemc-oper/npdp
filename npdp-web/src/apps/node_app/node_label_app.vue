@@ -10,7 +10,8 @@
       LabelTag
     },
     props:[
-      'label'
+      'label',
+      'id'
     ],
     computed:{
       current_node() {
@@ -24,7 +25,11 @@
       const {labels} = this.current_node;
       if(labels.includes(this.label)) {
         if (this.label === "OperationSystem") {
-          return createElement(OperationSystemNode);
+          return createElement(OperationSystemNode, {
+            props: {
+              id: this.id
+            }
+          });
         } else if (this.label === "FTPServer") {
           return createElement(FtpServerNode);
         } else if (this.label === "ProductSet") {

@@ -1,14 +1,23 @@
 import axios from 'axios';
 import "babel-polyfill";
 
+import operation_system_node from './operation_system_node.js'
+
 export default {
+  modules: {
+    operation_system_node: operation_system_node
+  },
   state: {
     current_node: {
       props: {},
       labels: [],
       id: null
     },
-    relationships: []
+    relationships: [],
+    operation_system_node: {
+      products: [],
+      destinations: []
+    }
   },
   mutations: {
     updateCurrentNode(state, payload){

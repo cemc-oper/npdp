@@ -4,7 +4,7 @@ import Vue from "vue";
 Vue.use(Vuex);
 
 import search_store from './search.js'
-import node_store from './node.js'
+import node_store from './node/index.js'
 
 export default new Vuex.Store({
   modules: {
