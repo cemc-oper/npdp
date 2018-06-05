@@ -2,7 +2,13 @@
   <Layout id="app">
     <Header>
       <Row type="flex" align="middle">
-        <Col span="2"><h1><router-link :to="{name: 'welcome'}" style="text-decoration:none;color:white">NPDP</router-link></h1></Col>
+        <Col span="2">
+          <h1>
+            <router-link :to="{name: 'welcome'}" style="text-decoration:none;color:white">
+              NPDP
+            </router-link>
+          </h1>
+        </Col>
         <Col span="20">
           <SearchBar
             :search_input="search_input"
@@ -16,13 +22,26 @@
       </Row>
     </Header>
     <Content>
-      <h1>{{current_node.props?current_node.props.name:null}}</h1>
+      <h1>
+        <router-link :to="{name: 'node_by_id', params:{id: id}}">
+          {{current_node.props?current_node.props.name:null}}
+        </router-link>
+
+      </h1>
       <Row>
         <Col span="12">
-          <LabelTag v-for="(label, index) in current_node.labels" :key="index"
-                    :tag_color_map="tag_color_map"
-                    :label="label"
-          ></LabelTag>
+          <router-link v-for="(label, index) in current_node.labels" :key="index"
+                       :to="{
+            name:'node_by_id_and_label',
+            params:{
+              id: id,
+              label: label
+            }
+          }">
+            <LabelTag :tag_color_map="tag_color_map"
+                      :label="label"
+            ></LabelTag>
+          </router-link>
         </Col>
       </Row>
       <router-view/>
