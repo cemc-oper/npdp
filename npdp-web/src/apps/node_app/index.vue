@@ -2,7 +2,7 @@
   <Layout id="app">
     <Header>
       <Row type="flex" align="middle">
-        <Col span="2"><h1><router-link to="/" style="text-decoration:none;color:white">NPDP</router-link></h1></Col>
+        <Col span="2"><h1><router-link :to="{name: 'welcome'}" style="text-decoration:none;color:white">NPDP</router-link></h1></Col>
         <Col span="20">
           <SearchBar
             :search_input="search_input"

@@ -52,7 +52,7 @@
     methods: {
       getNodeIdURL: function(record){
         const {id} = record;
-        return `/node/ids/${id}`;
+        return {name:'node_by_id', params: {id: id}};
       }
     }
   }

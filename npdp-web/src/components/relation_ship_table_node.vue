@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row>
-      <router-link :to="`/node/ids/${node.id}`">{{node.props.name}}</router-link>
+      <router-link :to="{name:'node_by_id', params:{id: node.id}}">{{node.props.name}}</router-link>
     </Row>
     <Row>
       <LabelTag v-for="(label, index) in node.labels" :key="index"
