@@ -8,6 +8,10 @@ const dist_path = path.resolve(__dirname, '../../dist');
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
+  devServer: {
+    contentBase: dist_path,
+    port: 6720
+  },
   entry: [
     'babel-polyfill',
     './src/index.js'
