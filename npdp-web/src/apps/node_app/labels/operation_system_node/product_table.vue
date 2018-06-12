@@ -9,10 +9,12 @@
       v-model="info_modal.is_open"
       :title="info_modal.title"
     >
-      <h2>Products</h2>
+      <h2>Destinations</h2>
       <div>
-        <p v-for="ps in info_modal.product_info.destinations" :key="ps.id">
-          {{ps.props.name}}
+        <p v-for="d in info_modal.product_info.destinations" :key="d.id">
+          <router-link :to="{name:'node_by_id', params:{id: d.id}}">
+            {{d.props.name}}
+          </router-link>
         </p>
       </div>
     </Modal>
@@ -51,7 +53,23 @@
     computed:{
       table_data: function(){
         const columns = [
-          {title: 'Product Name', key: 'name', sortable: true},
+          {
+            title: 'Product Name',
+            key: 'name',
+            sortable: true,
+            render: (h, params) => {
+              return h('router-link', {
+                props:{
+                  to: {
+                    name: 'node_by_id',
+                    params: {
+                      id: params.row.id
+                    }
+                  }
+                }
+              }, params.row.name)
+            }
+          },
           {
             title: 'Actions',
             render: (h, params) => {

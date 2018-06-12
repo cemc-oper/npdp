@@ -12,7 +12,9 @@
       <h2>Products</h2>
       <div>
         <p v-for="ps in info_modal.destination_info.products_sets" :key="ps.id">
-          {{ps.props.name}}
+          <router-link :to="{name:'node_by_id', params:{id: ps.id}}">
+            {{ps.props.name}}
+          </router-link>
         </p>
       </div>
     </Modal>
@@ -56,7 +58,19 @@
           {
             title: 'Destination Name',
             key: 'name',
-            sortable: true
+            sortable: true,
+            render: (h, params) => {
+              return h('router-link', {
+                props:{
+                  to: {
+                    name: 'node_by_id',
+                    params: {
+                      id: params.row.id
+                    }
+                  }
+                }
+              }, params.row.name)
+            }
           },
           {
             title: 'Type',
