@@ -38,6 +38,9 @@ def search():
     elif search_type == "ftp":
         records = selector.select("FTPServer") \
             .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
+    elif search_type == "product":
+        records = selector.select("ProductSet") \
+            .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
     elif search_type == "all":
         records = selector.select() \
             .where("(any(prop in keys(_) where _[prop] CONTAINS '{input}'))".format(input=search_input))
