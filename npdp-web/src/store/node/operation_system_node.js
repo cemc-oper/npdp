@@ -54,6 +54,20 @@ export default {
         }
       }
       fetchAPI();
+    },
+    queryDestinationProducts(context, payload, callback){
+      async function fetchAPI(){
+        try{
+          const {operation_system_id, destination_id, callback} = payload;
+          const response = await axios.get(`/api/v1/operation-system/ids/${operation_system_id}` +
+            `/destinations/${destination_id}/products`);
+          const {data} = response;
+          callback(data);
+        } catch (error) {
+          console.error('[node_store.operation_system_node][queryDestinationProducts]:', error);
+        }
+      }
+      fetchAPI();
     }
   }
 }

@@ -122,3 +122,66 @@ def query_operation_system_destination(node_id):
     }
 
     return jsonify(result)
+
+
+@api_v1_app.route(
+    '/operation-system/ids/<int:operation_system_id>/destinations/<int:destination_id>/products',
+    methods=['GET'])
+def query_operation_system_destination_products(operation_system_id, destination_id):
+    database_config = current_app.config['SERVER_CONFIG']['database']
+
+    print("[api_v1_app] /search: connecting to neo4j...")
+    database = Graph(
+        "{protocol}://{ip}:{port}".format(
+            protocol=database_config['connection']['protocol'],
+            ip=database_config['connection']['ip'],
+            port=database_config['connection']['port']
+        ),
+        user=database_config['auth']['user'],
+        password=database_config['auth']['password']
+    )
+
+    cursor = database.run(f'MATCH (a:OperationSystem)-[]-(ps:ProductSet)-[]-(:TransmissionTask)-[]-(d:Destination)'
+                          f'WHERE id(a)={operation_system_id} and id(d)={destination_id} '
+                          f'RETURN DISTINCT ps')
+    records = cursor.data()
+
+    if len(records) == 0:
+        result = {
+            'app': 'npdp-server',
+            'api': 'operation-system/ids/destinations/id/products',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'error',
+                'message': "can't find products.",
+                'request': {
+                    'operation_system_id': operation_system_id,
+                    'destination_id': destination_id
+                }
+            }
+        }
+        return jsonify(result)
+
+    product_sets = []
+
+    for record in records:
+        product_set = record['ps']
+        product_set = get_node_dict(product_set)
+
+        product_sets.append(product_set)
+
+    result = {
+        'app': 'npdp-server',
+        'api': 'operation-system/ids/destinations/id/products',
+        'timestamp': time.time(),
+        'data': {
+            'status': 'ok',
+            'request': {
+                    'operation_system_id': operation_system_id,
+                    'destination_id': destination_id
+                },
+            'product_sets': product_sets
+        }
+    }
+
+    return jsonify(result)
