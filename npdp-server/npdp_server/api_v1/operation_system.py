@@ -65,6 +65,69 @@ def query_operation_system_products(node_id):
     return jsonify(result)
 
 
+@api_v1_app.route(
+    '/operation-system/ids/<int:operation_system_id>/products/<int:product_set_id>/destinations',
+    methods=['GET'])
+def query_operation_system_product_destinations(operation_system_id, product_set_id):
+    database_config = current_app.config['SERVER_CONFIG']['database']
+
+    print("[api_v1_app] /search: connecting to neo4j...")
+    database = Graph(
+        "{protocol}://{ip}:{port}".format(
+            protocol=database_config['connection']['protocol'],
+            ip=database_config['connection']['ip'],
+            port=database_config['connection']['port']
+        ),
+        user=database_config['auth']['user'],
+        password=database_config['auth']['password']
+    )
+
+    cursor = database.run(f'MATCH (a:OperationSystem)-[]-(ps:ProductSet)-[]-(:TransmissionTask)-[]-(d:Destination)'
+                          f'WHERE id(a)={operation_system_id} and id(ps)={product_set_id} '
+                          f'RETURN DISTINCT d')
+    records = cursor.data()
+
+    if len(records) == 0:
+        result = {
+            'app': 'npdp-server',
+            'api': 'operation-system/ids/products/id/destinations',
+            'timestamp': time.time(),
+            'data': {
+                'status': 'error',
+                'message': "can't find destinations.",
+                'request': {
+                    'operation_system_id': operation_system_id,
+                    'product_set_id': product_set_id
+                }
+            }
+        }
+        return jsonify(result)
+
+    destinations = []
+
+    for record in records:
+        destination = record['d']
+        destination_dict = get_node_dict(destination)
+
+        destinations.append(destination_dict)
+
+    result = {
+        'app': 'npdp-server',
+            'api': 'operation-system/ids/products/id/destinations',
+        'timestamp': time.time(),
+        'data': {
+            'status': 'ok',
+            'request': {
+                    'operation_system_id': operation_system_id,
+                    'product_set_id': product_set_id
+                },
+            'destinations': destinations
+        }
+    }
+
+    return jsonify(result)
+
+
 @api_v1_app.route('/operation-system/ids/<int:node_id>/destinations', methods=['GET'])
 def query_operation_system_destination(node_id):
     database_config = current_app.config['SERVER_CONFIG']['database']

@@ -76,14 +76,14 @@
                   props: {
                     type: 'primary',
                     size: 'small',
-                    loading: params.row.action_map.view_products.loading
+                    // TODO: may cause error. need more analytics.
+                    // loading: params.row.action_map.view_products.loading
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: (event)=>{
-                      console.log('Button view products clicked.');
                       const payload = {
                         operation_system_id: this.operation_system_id,
                         destination_id: params.row.id
@@ -131,7 +131,7 @@
         this.$store.dispatch('queryDestinationProducts', payload);
       },
       receiveDestinationProducts(res){
-        console.log(res);
+        // console.log(res);
         this.info_modal.is_open = true;
         const {data} = res;
         const {status, request} = data;

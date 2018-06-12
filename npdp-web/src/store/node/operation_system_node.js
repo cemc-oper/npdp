@@ -55,7 +55,7 @@ export default {
       }
       fetchAPI();
     },
-    queryDestinationProducts(context, payload, callback){
+    queryDestinationProducts(context, payload){
       async function fetchAPI(){
         try{
           const {operation_system_id, destination_id, callback} = payload;
@@ -65,6 +65,20 @@ export default {
           callback(data);
         } catch (error) {
           console.error('[node_store.operation_system_node][queryDestinationProducts]:', error);
+        }
+      }
+      fetchAPI();
+    },
+    queryProductDestinations(context, payload){
+      async function fetchAPI(){
+        try{
+          const {operation_system_id, product_set_id, callback} = payload;
+          const response = await axios.get(`/api/v1/operation-system/ids/${operation_system_id}` +
+            `/products/${product_set_id}/destinations`);
+          const {data} = response;
+          callback(data);
+        } catch (error) {
+          console.error('[node_store.operation_system_node][queryProductDestinations]:', error);
         }
       }
       fetchAPI();

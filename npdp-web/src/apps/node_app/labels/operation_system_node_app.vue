@@ -5,18 +5,10 @@
     </h2>
     <div>
       <h3>Product</h3>
-      <Row>
-        <Col span="12">
-          <Table :columns="products_table_data.columns" :data="products_table_data.data"></Table>
-        </Col>
-      </Row>
-      <Modal
-        v-model="product_info_modal.is_open"
-        title="Product info"
-      >
-        <h1>Product info</h1>
-        <h2>{{product_info_modal.product_info.id}}</h2>
-      </Modal>
+      <ProductTable
+        :operation_system_id="id"
+        :products="products"
+      />
     </div>
     <div>
       <h3>Destination</h3>
@@ -31,10 +23,13 @@
 
 <script>
   import DestinationTable from './operation_system_node/destination_table.vue'
+  import ProductTable from './operation_system_node/product_table.vue'
+
   export default {
     name: "OperationSystemNode",
     components: {
-      DestinationTable
+      DestinationTable,
+      ProductTable
     },
     props: [
       'id'
