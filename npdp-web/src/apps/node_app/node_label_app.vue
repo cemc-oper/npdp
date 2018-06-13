@@ -31,9 +31,17 @@
             }
           });
         } else if (this.label === "FTPServer") {
-          return createElement(FtpServerNode);
+          return createElement(FtpServerNode, {
+            props: {
+              id: this.id
+            }
+          });
         } else if (this.label === "ProductSet") {
-          return createElement(ProductSetNode);
+          return createElement(ProductSetNode, {
+            props: {
+              id: this.id
+            }
+          });
         } else{
           return createElement('div', `Label ${this.label} is not implemented.`);
         }

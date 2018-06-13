@@ -2,10 +2,12 @@ import axios from 'axios';
 import "babel-polyfill";
 
 import operation_system_node from './operation_system_node.js'
+import ftp_server_node from './ftp_server_node.js'
 
 export default {
   modules: {
-    operation_system_node: operation_system_node
+    operation_system_node: operation_system_node,
+    ftp_server_node: ftp_server_node
   },
   state: {
     current_node: {
