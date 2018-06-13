@@ -3,11 +3,13 @@ import "babel-polyfill";
 
 import operation_system_node from './operation_system_node.js'
 import ftp_server_node from './ftp_server_node.js'
+import product_set_node from './product_set_node.js'
 
 export default {
   modules: {
     operation_system_node: operation_system_node,
-    ftp_server_node: ftp_server_node
+    ftp_server_node: ftp_server_node,
+    product_set_node: product_set_node
   },
   state: {
     current_node: {

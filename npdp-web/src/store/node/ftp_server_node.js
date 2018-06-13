@@ -13,7 +13,7 @@ export default {
   actions: {
     queryFTPServerProductsById(context, payload){
       const {commit} = context;
-      console.log(payload);
+      // console.log(payload);
       async function fetchAPI(){
         try{
           const {id} = payload;
