@@ -18,6 +18,7 @@ setup(
     install_requires=[
         'click',
         'Flask',
-        'PyYAML'
+        'PyYAML',
+        'py2neo'
     ]
 )
