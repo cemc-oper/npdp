@@ -19,6 +19,6 @@ setup(
         'click',
         'Flask',
         'PyYAML',
-        'py2neo'
+        'py2neo<4.0'
     ]
 )

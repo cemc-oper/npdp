@@ -13,8 +13,8 @@ import sys
 def runserver(config_file, static_folder, template_folder):
     from npdp_server import create_app
     app = create_app(config_file,
-                     str(Path(static_folder).absolute()),
-                     str(Path(template_folder).absolute()))
+                     Path(static_folder),
+                     Path(template_folder))
 
     app.run(
         host=app.config['SERVER_CONFIG']['host']['ip'],
